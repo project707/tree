@@ -52,6 +52,10 @@ class TreeNode extends React.Component {
     disabled: PropTypes.bool,
     disableCheckbox: PropTypes.bool,
     icon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    switcherIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    switcherOpenIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    checkboxIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    checkboxCheckedIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   };
 
   static contextTypes = nodeContextTypes;
@@ -403,10 +407,30 @@ class TreeNode extends React.Component {
     );
   };
 
+  renderCustomCheckbox = () => {
+    const { rcTree: { checkboxIcon, checkboxCheckedIcon } } = this.context;
+    const { checked } = this.props;
+
+    let Checkbox;
+
+    if (typeof checkboxIcon !== 'undefined' && typeof checkboxCheckedIcon !== 'undefined') {
+      if (checked) {
+        Checkbox = checkboxCheckedIcon;
+      } else {
+        Checkbox = checkboxIcon;
+      }
+      return (
+        <span onClick={this.onCheck}>
+          <Checkbox />
+        </span>
+      );
+    }
+  }
+
   // Checkbox
   renderCheckbox = () => {
     const { checked, halfChecked, disableCheckbox } = this.props;
-    const { rcTree: { prefixCls, checkable } } = this.context;
+    const { rcTree: { prefixCls, checkable, checkboxIcon, checkboxCheckedIcon } } = this.context;
     const disabled = this.isDisabled();
 
     if (!checkable) return null;
@@ -414,18 +438,23 @@ class TreeNode extends React.Component {
     // [Legacy] Custom element should be separate with `checkable` in future
     const $custom = typeof checkable !== 'boolean' ? checkable : null;
 
+    let $checkbox;
+
+    $checkbox = (typeof checkboxIcon !== 'undefined' && typeof checkboxCheckedIcon !== 'undefined')
+    ? this.renderCustomCheckbox() : (<span
+      className={classNames(
+        `${prefixCls}-checkbox`,
+        checked && `${prefixCls}-checkbox-checked`,
+        !checked && halfChecked && `${prefixCls}-checkbox-indeterminate`,
+        (disabled || disableCheckbox) && `${prefixCls}-checkbox-disabled`,
+      )}
+      onClick={this.onCheck}
+    >
+      {$custom}
+    </span>);
+
     return (
-      <span
-        className={classNames(
-          `${prefixCls}-checkbox`,
-          checked && `${prefixCls}-checkbox-checked`,
-          !checked && halfChecked && `${prefixCls}-checkbox-indeterminate`,
-          (disabled || disableCheckbox) && `${prefixCls}-checkbox-disabled`,
-        )}
-        onClick={this.onCheck}
-      >
-        {$custom}
-      </span>
+      $checkbox
     );
   };
 

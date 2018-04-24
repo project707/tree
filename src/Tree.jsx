@@ -22,6 +22,10 @@ export const contextTypes = {
     selectable: PropTypes.bool,
     showIcon: PropTypes.bool,
     icon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    switcherIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    switcherOpenIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    checkboxIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    checkboxCheckedIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     draggable: PropTypes.bool,
     checkable: PropTypes.oneOfType([
       PropTypes.bool,
@@ -62,6 +66,10 @@ class Tree extends React.Component {
     showLine: PropTypes.bool,
     showIcon: PropTypes.bool,
     icon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    switcherIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    switcherOpenIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    checkboxIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    checkboxCheckedIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     focusable: PropTypes.bool,
     selectable: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -174,9 +182,9 @@ class Tree extends React.Component {
 
   getChildContext() {
     const {
-      prefixCls, selectable, showIcon, icon, draggable, checkable, checkStrictly, disabled,
-      loadData, filterTreeNode,
-      openTransitionName, openAnimation,
+      prefixCls, selectable, showIcon, icon, switcherIcon, switcherOpenIcon, checkboxIcon,
+      checkboxCheckedIcon, draggable, checkable, checkStrictly, disabled, loadData,
+      filterTreeNode, openTransitionName, openAnimation,
     } = this.props;
 
     return {
@@ -187,6 +195,10 @@ class Tree extends React.Component {
         selectable,
         showIcon,
         icon,
+        switcherIcon,
+        switcherOpenIcon,
+        checkboxIcon,
+        checkboxCheckedIcon,
         draggable,
         checkable,
         checkStrictly,
