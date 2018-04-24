@@ -53,12 +53,12 @@ class Demo extends React.Component {
           <TreeNode
             title="Parent"
             icon={FolderIcon}
-            additionalContent={<span className="outer-content-right"></span>}
+            additionalContent={<span className="outer-content-right">something</span>}
           >
             <TreeNode
               title="Child"
               icon={FileIcon}
-              additionalContent={<span className="inner-content-right"></span>}
+              additionalContent={<span className="inner-content-right">something else</span>}
             />
           </TreeNode>
         </Tree>

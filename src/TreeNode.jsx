@@ -56,6 +56,7 @@ class TreeNode extends React.Component {
     switcherOpenIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     checkboxIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     checkboxCheckedIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    additionalContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   };
 
   static contextTypes = nodeContextTypes;
@@ -502,6 +503,24 @@ class TreeNode extends React.Component {
     );
   };
 
+  // Somwetimes you need inline content on a node-by-node basis
+  renderAdditionalContent = () => {
+    const { additionalContent } = this.props;
+
+    let $markup = null;
+    if (typeof additionalContent !== 'undefined') {
+      $markup = (<span>
+        {additionalContent}
+      </span>);
+    } else {
+      $markup = null;
+    }
+
+    return (
+      $markup
+    );
+  };
+
   // Icon + Title
   renderSelector = () => {
     const { loadStatus, dragNodeHighlight } = this.state;
@@ -653,6 +672,7 @@ class TreeNode extends React.Component {
         {this.renderCheckbox()}
         {this.renderSelector()}
         {this.renderChildren()}
+        {this.renderAdditionalContent()}
       </li>
     );
   }
