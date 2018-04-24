@@ -387,23 +387,50 @@ class TreeNode extends React.Component {
     });
   };
 
+  // If someone passes in both switcherIcon and switcherOpenIcon props via the parent
+  // we should render custom elements for the two states.
+  renderCustomSwitcher = () => {
+    const { rcTree: { switcherIcon, switcherOpenIcon } } = this.context;
+    const { expanded } = this.props;
+
+    let Switcher;
+
+    if (typeof switcherIcon !== 'undefined' && typeof switcherOpenIcon !== 'undefined') {
+      if (expanded) {
+        Switcher = switcherOpenIcon;
+      } else {
+        Switcher = switcherIcon;
+      }
+      return (
+        <span onClick={this.onExpand}>
+          <Switcher />
+        </span>
+      );
+    }
+  }
+
   // Switcher
   renderSwitcher = () => {
     const { expanded } = this.props;
-    const { rcTree: { prefixCls } } = this.context;
+    const { rcTree: { prefixCls, switcherIcon, switcherOpenIcon } } = this.context;
 
     if (this.isLeaf()) {
       return <span className={`${prefixCls}-switcher ${prefixCls}-switcher-noop`} />;
     }
 
+    let $switcher;
+
+    $switcher = (typeof switcherIcon !== 'undefined' && typeof switcherOpenIcon !== 'undefined')
+    ? this.renderCustomSwitcher() : (<span
+      className={classNames(
+        `${prefixCls}-switcher`,
+        `${prefixCls}-switcher_${expanded ? ICON_OPEN : ICON_CLOSE}`,
+      )}
+      onClick={this.onExpand}
+    />);
+
     return (
-      <span
-        className={classNames(
-          `${prefixCls}-switcher`,
-          `${prefixCls}-switcher_${expanded ? ICON_OPEN : ICON_CLOSE}`,
-        )}
-        onClick={this.onExpand}
-      />
+      $switcher
     );
   };
 
