@@ -407,6 +407,8 @@ class TreeNode extends React.Component {
     );
   };
 
+  // If someone passes in both checkboxIcon and checkboxCheckedIcon props via the parent
+  // we should render custom elements for the two states.
   renderCustomCheckbox = () => {
     const { rcTree: { checkboxIcon, checkboxCheckedIcon } } = this.context;
     const { checked } = this.props;
