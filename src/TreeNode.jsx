@@ -670,9 +670,9 @@ class TreeNode extends React.Component {
       >
         {this.renderSwitcher()}
         {this.renderCheckbox()}
+        {this.renderAdditionalContent()}
         {this.renderSelector()}
         {this.renderChildren()}
-        {this.renderAdditionalContent()}
       </li>
     );
   }
